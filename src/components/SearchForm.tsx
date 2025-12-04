@@ -1,7 +1,12 @@
 "use client";
+
+import { ArrowUp01, ArrowUpIcon, MapPin, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { KeyboardEvent, ChangeEvent, FormEvent } from "react";
-
+import { Input } from "./ui/input";
+import { Badge } from "./ui/badge";
+import Image from "next/image";
+import { useSearch } from "./providers";
 interface Product {
 	Title: string;
 	Price: string;
@@ -13,6 +18,19 @@ interface SearchFormProps {
 	defaultQuery?: string;
 	defaultLocation?: string;
 }
+const AVAILABLE_CITIES = [
+	"abidjan",
+	"yamoussoukro",
+	"bouake",
+	"san-pedro",
+	"korhogo",
+	"douala",
+	"yaounde",
+	"buea",
+	"lomé",
+	"paris",
+	"londre",
+];
 
 export default function SearchForm({
 	defaultQuery = "laptop",
@@ -23,22 +41,28 @@ export default function SearchForm({
 	const [allData, setAllData] = useState<Product[]>([]);
 	const [visibleCount, setVisibleCount] = useState(5);
 	const [loading, setLoading] = useState(false);
+	const [selectedCities, setSelectedCities] = useState<string[]>([]);
+	const [cityInput, setCityInput] = useState("");
+	const [showCityDropdown, setShowCityDropdown] = useState(false);
+	const { setResults, logging, setLogging } = useSearch();
 
+	// const reusltList = document.getElementById("results");
 	// Fonction pour récupérer les données
+
 	const fetchData = async () => {
-		setLoading(true);
+		setLogging(true);
 		try {
-			const res = await fetch(
-				`/api/search/?q=${encodeURIComponent(
-					query,
-				)}&location=${encodeURIComponent(location)}`,
-			);
+			const queryParams = new URLSearchParams({ q: query });
+
+			selectedCities.forEach((loc) => queryParams.append("location", loc));
+
+			const res = await fetch(`/api/search?${queryParams.toString()}`);
 			const json = await res.json();
-			if (json.results) setAllData(json.results);
+			if (json.results) setResults(json.results);
 		} catch (err) {
 			console.error("Erreur fetch:", err);
 		} finally {
-			setLoading(false);
+			setLogging(false);
 		}
 	};
 
@@ -52,13 +76,7 @@ export default function SearchForm({
 	// Infinite scroll
 	useEffect(() => {
 		const handleScroll = () => {
-			if (
-				window.innerHeight + window.scrollY >=
-					document.body.offsetHeight - 100 &&
-				visibleCount < allData.length
-			) {
-				setVisibleCount((prev) => Math.min(prev + 5, allData.length));
-			}
+			setVisibleCount((prev) => Math.min(prev + 5, allData.length));
 		};
 		window.addEventListener("scroll", handleScroll);
 		return () => window.removeEventListener("scroll", handleScroll);
@@ -77,27 +95,34 @@ export default function SearchForm({
 		}
 	};
 
-	// Supprimer une ville
-	const removeCity = (city: string) => {
-		setCities(cities.filter((c) => c !== city));
+	const addCity = (city: string) => {
+		if (!selectedCities.includes(city)) {
+			setSelectedCities([...selectedCities, city]);
+		}
+		setCityInput("");
+		setShowCityDropdown(false);
 	};
 
-	// Soumission du formulaire
-	//   const handleSubmit = (e: FormEvent) => {
-	//     e.preventDefault()
-	//     console.log("Villes sélectionnées :", cities)
-	//     // Ici tu peux faire ton fetch vers ton API
-	//   }
+	const removeCity = (city: string) => {
+		setSelectedCities(selectedCities.filter((c) => c !== city));
+	};
+
+	const filteredCities = AVAILABLE_CITIES.filter(
+		(city) =>
+			city.toLowerCase().includes(cityInput.toLowerCase()) &&
+			!selectedCities.includes(city),
+	);
+
 	return (
 		<div className="mx-auto p-4 max-w-2xl">
-			<form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+			<form onSubmit={handleSubmit} className="flex flex-col gap-2 mb-4">
 				<input
 					type="text"
 					value={query}
 					onChange={(e) => setQuery(e.target.value)}
 					placeholder="Rechercher un produit"
 					name="q"
-					className="flex-1 p-2 border rounded"
+					className="flex-1 bg-accent p-2 border rounded"
 				/>
 				{/* <input
 					type="text"
@@ -107,67 +132,115 @@ export default function SearchForm({
 					className="p-2 border rounded"
 					name="location"
 				/> */}
-				<input
-					type="text"
-					value={input}
-					onChange={(e: ChangeEvent<HTMLInputElement>) =>
-						setInput(e.target.value)
-					}
-					onKeyDown={handleKeyDown}
-					placeholder="Ajouter une ville et appuyer sur Entrée"
-					className="p-2 border rounded w-full"
-				/>
-				<div>
-					<div className="flex flex-wrap gap-2 mb-2">
-						{cities.map((city) => (
-							<span
-								key={city}
-								className="flex items-center gap-1 bg-blue-500 px-2 py-1 rounded-full text-white"
-							>
-								{city}
-								<button type="button" onClick={() => removeCity(city)}>
-									x
-								</button>
-							</span>
-						))}
+				<div className="space-y-2">
+					<label
+						htmlFor="cities"
+						className="font-medium text-foreground text-sm"
+					>
+						Select Cities to Compare
+					</label>
+					<div className="relative">
+						<MapPin className="top-1/2 left-3 absolute w-4 h-4 text-muted-foreground -translate-y-1/2 transform" />
+						<Input
+							id="cities"
+							type="text"
+							placeholder="Search for cities..."
+							value={cityInput}
+							onChange={(e) => {
+								setCityInput(e.target.value);
+								setShowCityDropdown(true);
+							}}
+							onFocus={() => setShowCityDropdown(true)}
+							className="bg-accent pl-10"
+						/>
+						{showCityDropdown && filteredCities.length > 0 && (
+							<div className="z-10 absolute bg-accent bg-card shadow-elevated mt-1 border border-border rounded-md w-full max-h-48 overflow-y-auto">
+								<div
+									className="top-0 sticky bg-primary w-full"
+									onClick={() => setShowCityDropdown(false)}
+								>
+									<ArrowUp01 />
+								</div>
+								{filteredCities.slice(0, 8).map((city) => (
+									<button
+										key={city}
+										type="button"
+										onClick={() => addCity(city)}
+										className="hover:bg-white px-3 py-2 w-full text-primary hover:text-accent text-left transition-colors"
+									>
+										{city}
+									</button>
+								))}
+							</div>
+						)}
 					</div>
 				</div>
-				<button type="submit" className="bg-blue-500 px-4 rounded text-white">
+
+				{selectedCities.length > 0 && (
+					<div className="space-y-2">
+						<span className="font-medium text-accent text-sm">
+							Selected Cities:
+						</span>
+						<div className="flex flex-wrap gap-2">
+							{selectedCities.map((city) => (
+								<Badge
+									key={city}
+									variant="secondary"
+									className="items-center gap-1"
+								>
+									{city}
+									<button
+										type="button"
+										onClick={() => removeCity(city)}
+										className="ml-1 hover:text-destructive"
+									>
+										<X className="w-3 h-3" />
+									</button>
+								</Badge>
+							))}
+						</div>
+					</div>
+				)}
+				<button
+					type="submit"
+					className="bg-accent px-4 py-1 rounded text-primary"
+				>
 					Rechercher
 				</button>
 			</form>
 
-			{loading && <p>Chargement...</p>}
+			{logging && <p>Chargement...</p>}
 
-			<ul className="space-y-4">
+			<ul className="space-y-4 max-h-[60vh] overflow-y-auto" id="results">
 				{allData.slice(0, visibleCount).map((item, idx) => (
 					<li key={idx} className="flex items-center gap-4 p-2 border rounded">
-						<img
+						<Image
 							src={item.ImageThumbNail}
 							alt={item.Title}
 							className="rounded w-20 h-20 object-cover"
+							width={80}
+							height={80}
 						/>
 						<div>
 							<a
-								href={item.url}
+								href={`https://www.facebook.com${item.url}`}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="font-bold text-blue-600"
 							>
 								{item.Title}
 							</a>
-							<p>{item.mi}</p>
+							{/* <p>{item.}</p> */}
 							<p>{item.Price}</p>
 						</div>
 					</li>
 				))}
+				{/* {!loading && visibleCount < allData.length && (
+					<p className="mt-4 text-gray-500 text-center">
+						Faites défiler pour voir plus...
+					</p>
+				)} */}
 			</ul>
-
-			{!loading && visibleCount < allData.length && (
-				<p className="mt-4 text-gray-500 text-center">
-					Faites défiler pour voir plus...
-				</p>
-			)}
 		</div>
 	);
 

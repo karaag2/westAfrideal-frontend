@@ -6,23 +6,20 @@ import React from "react";
 import clsx from "clsx";
 import { Bubblegum_Sans } from "next/font/google";
 import SearchForm from "@/src/components/SearchForm";
+import Results from "@/src/components/Results";
 const bubblegum = Bubblegum_Sans({
 	subsets: ["latin"],
 	weight: ["400"],
 	variable: "--font-bubble",
 });
 const SearchingProduct = () => {
-	const handleSearch = () => {};
 	return (
-		<div className="my-12 px-12 min-h-screen">
-			<h1 className={clsx("mb-8 font-bold text-primary text-6xl text-center")}>
-				Find your product at the best price
-			</h1>
-			<div className="mx-auto mb-8 max-w-2xl">
-				{/* <SearchForm /> */}
-				<SearchForm />
+		<div className="w-full min-h-screen max-h-96 overflow-hidden">
+			<div className="w-full overflow-clip">
+				<div className="mx-auto px-12">
+					<HowItWorksSection />
+				</div>
 			</div>
-			<HowItWorksSection />
 		</div>
 	);
 };

@@ -44,11 +44,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} bg-zinc-50 antialiased relative overflow-x-hidden min-h-sreen`}
+				className={`${geistSans.variable} ${geistMono.variable} bg-zinc-50 antialiased relative max-h-screen`}
 			>
 				{/* <Providers> */}
 				<header
-					className={`sticky top-0 bg-primary flex font-bubble text-accent mx-12 rounded-b-2xl py-2 px-8 z-20 justify-between
+					className={`sticky top-0 bg-primary flex font-bubble text-accent py-2 px-8 z-20 justify-between border-b-2
 				${bubblegum.className}
 			`}
 				>
@@ -59,6 +59,7 @@ export default function RootLayout({
 					</div>
 					<NavBar />
 				</header>
+
 				{children}
 
 				{/* </Providers> */}
@@ -74,7 +75,7 @@ export default function RootLayout({
 					alt="marketplace"
 					width={1920}
 					height={1080}
-					className="hidden lg:block bottom-0 sticky"
+					className="hidden lg:block bottom-0 -z-10 sticky"
 				/>
 			</body>
 		</html>

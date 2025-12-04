@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Bubblegum_Sans } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { CgMore } from "react-icons/cg";
 import { MdMore } from "react-icons/md";
 import { FiMoreHorizontal } from "react-icons/fi";
@@ -11,10 +11,9 @@ import { ArrowBigDownIcon, ArrowDownLeftFromCircle } from "lucide-react";
 import { useState } from "react";
 import clsx from "clsx";
 import Link from "next/link";
-const bubblegum = Bubblegum_Sans({
+const roboto = Roboto({
 	subsets: ["latin"],
-	weight: ["400"],
-	variable: "--font-bubble",
+	weight: ["900"],
 });
 const sections = [
 	{ name: "Home", href: "/LookForProduct" },
@@ -27,7 +26,7 @@ export const NavBar = () => {
 	return (
 		<nav
 			className={`bg-primary  font-bubble flex items-center text-accent relative"
-				${bubblegum.className}
+				// ${roboto.className}
 			`}
 		>
 			{!menu && (

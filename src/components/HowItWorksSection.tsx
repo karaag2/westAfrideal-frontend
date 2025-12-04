@@ -14,7 +14,7 @@ const HowItWorksSection = () => {
 					<h2 className="mb-12 font-bold text-primary text-3xl text-center">
 						How It Works
 					</h2>
-					<div className="gap-8 grid grid-cols-1 md:grid-cols-3">
+					<div className="gap-8 grid grid-cols-1 lg:grid-cols-3">
 						<Card className="bg-gradient-card shadow-card p-6 text-center">
 							<div className="flex justify-center items-center bg-primary mx-auto mb-4 rounded-full w-12 h-12">
 								<Search className="w-6 h-6 text-primary-foreground" />
