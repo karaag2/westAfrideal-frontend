@@ -80,17 +80,13 @@ const HomePage = () => {
 						<Link href={"/LookForProduct"}>
 							<Button
 								size="lg"
-								className="mx-auto mt-4 sm:px-32 max-w-1/7 text-white text-xl cursor-pointer"
+								className="mx-auto mt-4 sm:px-32 w-fit text-white text-xl cursor-pointer"
 							>
 								Find your product
 							</Button>
 						</Link>
 					</div>
 				</div>
-				<div className=""></div>
-				<div className="min-h-screen">Bronol</div>
-				<div className="min-h-screen"></div>
-				<div className="min-h-screen"></div>
 			</section>
 		</main>
 	);

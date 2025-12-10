@@ -1,4 +1,0 @@
-overrides:
-  clsx: link:../../../AppData/Local/pnpm/global/5/node_modules/clsx
-  react-icons: link:../../../AppData/Local/pnpm/global/5/node_modules/react-icons
-  rome: link:../../../AppData/Local/pnpm/global/5/node_modules/rome

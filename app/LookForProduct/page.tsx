@@ -14,7 +14,7 @@ const bubblegum = Bubblegum_Sans({
 });
 const SearchingProduct = () => {
 	return (
-		<div className="w-full min-h-screen max-h-96 overflow-hidden">
+		<div className="w-full overflow-hidden">
 			<div className="w-full overflow-clip">
 				<div className="mx-auto px-12">
 					<HowItWorksSection />

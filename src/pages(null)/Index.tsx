@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SearchForm } from "@/components/SearchForm";
+import { SearchForm } from "@/src/components/SearchForm";
 import { ResultsTable, Listing } from "@/components/ResultsTable";
 import { PriceChart } from "@/components/PriceChart";
 import { Card } from "@/components/ui/card";
