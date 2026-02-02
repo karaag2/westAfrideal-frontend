@@ -265,7 +265,7 @@ export default function HomePage() {
                   target="_blank"
                   className="text-slate-900 dark:text-white font-black hover:text-primary transition-colors relative"
                 >
-                  Amos Issa
+                  Amos Issa 
                   <span className="absolute -bottom-0.5 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                 </Link>
             </div>
