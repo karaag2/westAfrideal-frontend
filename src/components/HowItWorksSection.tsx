@@ -1,62 +1,62 @@
 "use client";
-import {Card} from "@/src/components/ui/card";
+import {Card, CardContent} from "@/src/components/ui/card";
 import {BarChart3, Search, TrendingUp} from "lucide-react";
-import React, {useState} from "react";
-import {Listing} from "@/src/components/ResultsTable";
+import React from "react";
+import {useSearch} from "@/src/components/providers";
 
 const HowItWorksSection = () => {
-    const [listings, setListings] = useState<Listing[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const {results} = useSearch()
+    if (results?.Title?.length) return <></>
+    
     return (
-        <div className="">
-            {/* How it Works Section */}
-            {listings.length === 0 && !isLoading && (
-                <div className="mx-auto mt-16 max-w-4xl">
-                    <h2 className="mb-12 font-bold text-primary text-3xl text-center">
-                        How It Works
-                    </h2>
-                    <div className="gap-8 grid grid-cols-1 lg:grid-cols-3">
-                        <Card className="bg-gradient-card shadow-card p-6 text-center">
-                            <div
-                                className="flex justify-center items-center bg-primary mx-auto mb-4 rounded-full w-12 h-12">
-                                <Search className="w-6 h-6 text-primary-foreground"/>
+        <div className="py-20 animate-reveal">
+            <h2 className="mb-12 font-bold text-4xl text-center text-gradient">
+                How It Works
+            </h2>
+            <div className="gap-8 grid grid-cols-1 md:grid-cols-3">
+                {[
+                    {
+                        step: "1. Search",
+                        icon: Search,
+                        title: "Find Your Need",
+                        desc: "Enter your product name and select multiple West African cities to compare.",
+                        color: "text-blue-500",
+                        bg: "bg-blue-500/10"
+                    },
+                    {
+                        step: "2. Analyze",
+                        icon: BarChart3,
+                        title: "Compare Prices",
+                        desc: "Our engine fetches real-time data from Facebook Marketplace to show you the best value.",
+                        color: "text-purple-500",
+                        bg: "bg-purple-500/10"
+                    },
+                    {
+                        step: "3. Save",
+                        icon: TrendingUp,
+                        title: "Greatest Value",
+                        desc: "Connect directly with sellers and save up to 40% on your local purchases.",
+                        color: "text-green-500",
+                        bg: "bg-green-500/10"
+                    }
+                ].map((item, i) => (
+                    <Card key={i} className="glass border-white/5 p-2 group hover:bg-white/5 transition-all">
+                        <CardContent className="p-6 text-center">
+                            <div className={`w-14 h-14 ${item.bg} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform`}>
+                                <item.icon className={`w-7 h-7 ${item.color}`} />
                             </div>
-                            <h3 className="mb-2 font-semibold text-xl">1. Search</h3>
-                            <p className="text-muted-foreground">
-                                Click on the Search option button below then
-                                Enter what you're looking for and select cities to compare
-                                prices across.
+                            <h3 className="mb-3 font-bold text-xl">{item.step}</h3>
+                            <p className="text-zinc-400 leading-relaxed italic mb-2 font-medium">{item.title}</p>
+                            <p className="text-zinc-500 text-sm leading-relaxed">
+                                {item.desc}
                             </p>
-                        </Card>
-
-                        <Card className="bg-gradient-card shadow-card p-6 text-center">
-                            <div
-                                className="flex justify-center items-center bg-accent mx-auto mb-4 rounded-full w-12 h-12">
-                                <BarChart3 className="w-6 h-6 text-accent-foreground"/>
-                            </div>
-                            <h3 className="mb-2 font-semibold text-xl">2. Compare</h3>
-                            <p className="text-muted-foreground">
-                                View detailed price comparisons and analytics across all
-                                selected cities.
-                            </p>
-                        </Card>
-
-                        <Card className="bg-gradient-card shadow-card p-6 text-center">
-                            <div
-                                className="flex justify-center items-center bg-success mx-auto mb-4 rounded-full w-12 h-12">
-                                <TrendingUp className="w-6 h-6 text-success-foreground"/>
-                            </div>
-                            <h3 className="mb-2 font-semibold text-xl">3. Save</h3>
-                            <p className="text-muted-foreground">
-                                Find the best deals and connect directly with sellers on
-                                Facebook Marketplace.
-                            </p>
-                        </Card>
-                    </div>
-                </div>
-            )}
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
         </div>
     );
 };
 
 export default HowItWorksSection;
+

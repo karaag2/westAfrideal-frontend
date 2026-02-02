@@ -14,12 +14,14 @@ const bubblegum = Bubblegum_Sans({
 });
 const SearchingProduct = () => {
 	return (
-		<div className="w-full overflow-hidden">
-			<div className="w-full overflow-clip">
-				<div className="mx-auto px-12">
-					<HowItWorksSection />
-				</div>
-			</div>
+		<div className="w-full space-y-12">
+            {/* Real-time Results List */}
+            <Results />
+
+            {/* Educational Section - Only shows when no results or first load */}
+            <div className="pt-20 border-t border-slate-100 dark:border-white/5 opacity-50 hover:opacity-100 transition-opacity">
+			    <HowItWorksSection />
+            </div>
 		</div>
 	);
 };
