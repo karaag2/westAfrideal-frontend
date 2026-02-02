@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { SearchForm } from "@/src/components/SearchForm";
-import { ResultsTable, Listing } from "@/components/ResultsTable";
-import { PriceChart } from "@/components/PriceChart";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ResultsTable, Listing } from "@/src/components/ResultsTable";
+import { PriceChart } from "@/src/components/PriceChart";
+import { Card } from "@/src/components/ui/card";
+import { Badge } from "@/src/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs";
 import { generateMockListings } from "@/data/mockData";
 import { BarChart3, Table, Search, TrendingUp } from "lucide-react";
 
