@@ -6,7 +6,7 @@ import {useSearch} from "@/src/components/providers";
 
 const HowItWorksSection = () => {
     const {results} = useSearch()
-    if (results?.Title?.length) return <></>
+    if (results?.length) return <></>
     
     return (
         <div className="py-20 animate-reveal">
