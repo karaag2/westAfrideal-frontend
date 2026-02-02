@@ -1,6 +1,12 @@
-import { Card } from "@/components/ui/card";
-import { Listing } from "@/components/ResultsTable";
+import { Card } from "@/src/components/ui/card";
+// import { Listing } from "@/src/components/ResultsTable"; // Assuming this might be missing too, but fixing path first.
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart, Scatter } from "recharts";
+
+interface Listing {
+    city: string;
+    price: number;
+    condition: string;
+}
 
 interface PriceChartProps {
   listings: Listing[];
