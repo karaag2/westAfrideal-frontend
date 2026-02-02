@@ -28,13 +28,7 @@ interface Product {
     City?: string;
 }
 
-interface dala {
-    Title: string[];
-    Price: string[];
-    ImageThumbNail: string[];
-    Mileage: string[];
-    url: string[];
-}
+
 
 interface SearchContextType {
     results: Product[] | null;
